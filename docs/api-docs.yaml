@@ -1,0 +1,115 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /products:
+    get:
+      tags:
+      - product-controller
+      operationId: getProductsByDate
+      parameters:
+      - name: date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/statistics/frequencies-by-name:
+    get:
+      tags:
+      - product-statistics-controller
+      operationId: getFrequenciesByName
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceUpdateFrequencyByProductNameDto'
+  /products/statistics/frequencies-by-date:
+    get:
+      tags:
+      - product-statistics-controller
+      operationId: getFrequenciesByDate
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PriceUpdateFrequencyByDateDto'
+  /products/statistics/count:
+    get:
+      tags:
+      - product-statistics-controller
+      operationId: getProductsCount
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int64
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        productPrices:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductPrice'
+    ProductPrice:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        price:
+          type: number
+        datetime:
+          type: string
+          format: date
+        product:
+          $ref: '#/components/schemas/Product'
+    PriceUpdateFrequencyByProductNameDto:
+      type: object
+      properties:
+        name:
+          type: string
+        frequency:
+          type: integer
+          format: int64
+    PriceUpdateFrequencyByDateDto:
+      type: object
+      properties:
+        datetime:
+          type: string
+          format: date
+        frequency:
+          type: integer
+          format: int64

@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "custom.csv-loader.path",
+      "type": "java.lang.String",
+      "description": "Path to csv file"
+  }
+] }
